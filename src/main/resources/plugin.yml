@@ -1,0 +1,24 @@
+name: MistBingo
+version: '1.0.0'
+main: net.starryisle.mistbingo.MistBingoPlugin
+api-version: '1.20'
+description: Daily bingo collection cards and a voucher shop
+author: StarryIsle
+commands:
+  mistdaily:
+    description: Show your daily bingo card
+    usage: /mistdaily [submit <card>|pending|debug]
+    aliases: [mistdb]
+  mistshop:
+    description: Open the voucher shop
+    usage: /mistshop [list|add|remove|open|close|generate]
+permissions:
+  mistbingo.use:
+    description: Use /mistdaily
+    default: true
+  mistbingo.shop:
+    description: Open the voucher shop
+    default: true
+  mistbingo.admin:
+    description: Edit the shop and inspect state
+    default: op

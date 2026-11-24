@@ -1,0 +1,110 @@
+# MistBingo - 每日集物 + 建材兑换券商店
+
+# 每天几点刷新（服务器按下面时区计算 0 点）
+refresh:
+  hour: 0
+  zone: Asia/Shanghai
+
+# 最多累积几张没完成的集物表
+max-pending: 7
+
+# 超过多少天没有活动就清理该玩家的数据；0 = 永不清理
+data-retention-days: 90
+
+# 调试日志：
+#   false = 详细诊断只写 FINE（控制台和日志文件里看不到）
+#   true  = 详细诊断写 INFO（能看到每次提交/购买的过程）
+debug: false
+
+# 商店窗口样式：
+#   gui      = 点击式商店（推荐，点商品直接扣券给货）
+#   merchant = 原版交易界面（右键券打开，像村民交易）
+shop:
+  style: gui
+  # 界面标题（& 颜色码）
+  title: '&8商店 &8→ &6建材'
+  # 启动时自动生成目录（16 色混凝土 + 16 色染色玻璃潜影盒）
+  # 只在 shops.yml 没有任何商品时生成；不会覆盖 /mistshop add 手动上架的商品
+  # 设为 false 则只用 /mistshop add 手动上架的商品
+  catalog-on-start: true
+  catalog-price: 2
+
+# 界面样式：
+#   bundle = 悬停弹出九宫格面板（带图标，进度显示在行内，推荐）
+#   text   = 聊天栏三行文本，每格可悬停看物品
+ui:
+  style: bundle
+
+# 物品池：
+#   datapack = NyaaGears 数据包那份 332 项精选清单（默认，推荐）
+#   all      = 除黑名单外的全部可获得物品
+pool:
+  mode: datapack
+
+# 每格数量：数据包是每格 1~5 个
+amounts:
+  min: 1
+  max: 5
+
+# 额外排除的物品（黑名单之外）
+# 附魔书、药水、可疑的炖汤、地图、成书等带 NBT 的物品已在代码里默认排除
+exclude: []
+  # - ENCHANTED_BOOK
+  # - POTION
+
+# 随机池黑名单：这些物品不会出现在集物表里
+blacklist:
+  - COMMAND_BLOCK
+  - CHAIN_COMMAND_BLOCK
+  - REPEATING_COMMAND_BLOCK
+  - COMMAND_BLOCK_MINECART
+  - BARRIER
+  - LIGHT
+  - STRUCTURE_BLOCK
+  - STRUCTURE_VOID
+  - JIGSAW
+  - DEBUG_STICK
+  - BEDROCK
+  - END_PORTAL_FRAME
+  - SPAWNER
+  - TRIAL_SPAWNER
+  - VAULT
+  - KNOWLEDGE_BOOK
+  - FILLED_MAP
+  - WRITTEN_BOOK
+  - PETRIFIED_OAK_SLAB
+  - BARRIER
+  # 需要权限/管理员才能获得的
+  - SPAWN_EGG_PLACEHOLDER
+
+# 兑换券
+voucher:
+  material: PAPER
+  name: '&6建材兑换券'
+  lore:
+    - '&7完成一张集物表获得'
+    - '&7右键打开兑换界面'
+  # 每次完成一张集物表给几张
+  reward-per-card: 1
+  # 每完成 N 张额外奖励（对应数据包的 bonus）
+  bonus-every: 5
+  bonus-extra: 1
+
+# 完成一张集物表后执行的控制台命令（%player% 会替换为玩家名）
+# XConomy 的管理指令是 /money give（不是 /xconomy give）：
+reward:
+  commands:
+    - 'money give %player% 400'
+
+# 文案
+messages:
+  header: '&8--==-- &6Mist Bingo &8==--'
+  footer: '&8------&7 A bingo a day makes NyaaCat great &8------'
+  card-line: '&a              查看集物表 #{index}  &7({progress})'
+  no-card: '&7你还没有集物表，稍后再试。'
+  done-today: '&7今天的集物表已经完成，明天 0 点刷新后再来。'
+  stale-card: '&7这张集物表已经刷新或完成，请重新打开 /mistdaily。'
+  nothing: '&7背包里没有可以提交的物品。'
+  submitted: '&a提交了 {count} 格：&f{items}'
+  completed: '&6完成一张集物表！获得 &e{reward} &6张建材兑换券'
+  already: '&7这张表已经完成了。'

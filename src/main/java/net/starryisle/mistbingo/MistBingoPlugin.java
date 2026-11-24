@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitTask;
 /** Plugin entry point: wires the services and keeps cards rolling at midnight. */
 public final class MistBingoPlugin extends JavaPlugin {
 
-    private static final String BUILD = "2026-11-24.8";
+    private static final String BUILD = "2026-11-24.9";
 
     private Settings settings;
     private ItemPool pool;

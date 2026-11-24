@@ -42,7 +42,7 @@ public final class ChatUi {
 
     public void sendFooter(Player player) {
         player.sendMessage(legacy(plugin.settings().message("footer",
-                "&8------&7 愿你天天开心，把把 Bingo &8------")));
+                "&8------&7 Happy every day, Bingo every time &8------")));
     }
 
     /**

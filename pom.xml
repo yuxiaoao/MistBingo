@@ -6,7 +6,7 @@
 
     <groupId>net.starryisle</groupId>
     <artifactId>mistbingo</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.4</version>
     <packaging>jar</packaging>
     <name>MistBingo</name>
 
@@ -32,7 +32,7 @@
     </dependencies>
 
     <build>
-        <finalName>MistBingo-1.0.1</finalName>
+        <finalName>MistBingo-1.0.4</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

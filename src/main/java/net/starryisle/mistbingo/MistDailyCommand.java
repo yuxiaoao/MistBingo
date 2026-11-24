@@ -26,8 +26,7 @@ public final class MistDailyCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage("这个命令只能玩家使用");
             return true;
         }
-        if (!player.hasPermission("mistbingo.use")
-                && !player.hasPermission("mistbingo.admin")) {
+        if (!player.hasPermission("mistbingo.use") && !plugin.isAdmin(player)) {
             player.sendMessage("§c没有权限使用这个命令（需要权限 mistbingo.use）");
             return true;
         }
@@ -57,7 +56,7 @@ public final class MistDailyCommand implements CommandExecutor, TabCompleter {
                         + " §7张集物表，累计完成 §f" + state.streak() + " §7张。");
             }
             case "debug" -> {
-                if (!player.hasPermission("mistbingo.admin")) {
+                if (!plugin.isAdmin(player)) {
                     player.sendMessage("§c需要管理权限");
                     return true;
                 }
@@ -105,8 +104,16 @@ public final class MistDailyCommand implements CommandExecutor, TabCompleter {
                     }
                 }
             }
+            case "reload" -> {
+                if (!plugin.isAdmin(player)) {
+                    player.sendMessage("§c需要管理权限");
+                    return true;
+                }
+                plugin.reloadPluginConfig();
+                player.sendMessage("§aMistBingo 配置已重载。");
+            }
             case "reset" -> {
-                if (!player.hasPermission("mistbingo.admin")) {
+                if (!plugin.isAdmin(player)) {
                     player.sendMessage("§c需要管理权限");
                     return true;
                 }
@@ -118,7 +125,7 @@ public final class MistDailyCommand implements CommandExecutor, TabCompleter {
                 player.sendMessage("§a已重置你的集物表与累计完成数");
             }
             case "voucher", "give" -> {
-                if (!player.hasPermission("mistbingo.admin")) {
+                if (!plugin.isAdmin(player)) {
                     player.sendMessage("§c需要管理权限");
                     return true;
                 }
@@ -181,8 +188,13 @@ public final class MistDailyCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> suggestions = new ArrayList<>();
+        boolean admin = sender instanceof Player player && plugin.isAdmin(player);
         if (args.length == 1) {
-            for (String option : new String[]{"submit", "pending", "debug", "reset", "voucher"}) {
+            for (String option : new String[]{"submit", "pending", "debug", "reset", "voucher", "reload"}) {
+                if (!admin && (option.equals("debug") || option.equals("reset")
+                        || option.equals("voucher") || option.equals("reload"))) {
+                    continue;
+                }
                 if (option.startsWith(args[0].toLowerCase(Locale.ROOT))) {
                     suggestions.add(option);
                 }

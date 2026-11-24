@@ -176,6 +176,23 @@ public final class MistBingoPlugin extends JavaPlugin {
         }
     }
 
+    /** Reloads config.yml, item pool, voucher item and shops.yml without a restart. */
+    public void reloadPluginConfig() {
+        reloadConfig();
+        settings = new Settings(this);
+        names = new ItemNames(this);
+        pool = new ItemPool(this);
+        voucher = new Voucher(this);
+        shop.reload();
+        getLogger().info("Config reloaded: item pool " + pool.size()
+                + ", offers " + shop.offers().size());
+    }
+
+    /** Admin check used by every admin subcommand. */
+    public boolean isAdmin(org.bukkit.command.CommandSender sender) {
+        return sender.hasPermission("mistbingo.admin");
+    }
+
     public Settings settings() {
         return settings;
     }

@@ -37,8 +37,16 @@ public final class MistShopCommand implements CommandExecutor, TabCompleter {
         }
 
         switch (args[0].toLowerCase(Locale.ROOT)) {
+            case "reload" -> {
+                if (!plugin.isAdmin(player)) {
+                    player.sendMessage("§c需要管理权限");
+                    return true;
+                }
+                plugin.reloadPluginConfig();
+                player.sendMessage("§aMistBingo 配置已重载。");
+            }
             case "add" -> {
-                if (!player.hasPermission("mistbingo.admin")) {
+                if (!plugin.isAdmin(player)) {
                     player.sendMessage("§c需要管理权限");
                     return true;
                 }
@@ -73,7 +81,7 @@ public final class MistShopCommand implements CommandExecutor, TabCompleter {
                         + plugin.shop().offers().size() + " 条）");
             }
             case "generate", "build" -> {
-                if (!player.hasPermission("mistbingo.admin")) {
+                if (!plugin.isAdmin(player)) {
                     player.sendMessage("§c需要管理权限");
                     return true;
                 }
@@ -104,9 +112,8 @@ public final class MistShopCommand implements CommandExecutor, TabCompleter {
                 player.sendMessage("§f  手持物品执行 §e/mistshop add <价格>");
                 player.sendMessage("§f  §e/mistshop list §7查看，§e/mistshop remove <序号> §7下架");
             }            case "list" -> {
-                if (!player.hasPermission("mistbingo.shop")
-                        && !player.hasPermission("mistbingo.admin")) {
-                    player.sendMessage("§c没有权限");
+                if (!plugin.isAdmin(player)) {
+                    player.sendMessage("§c需要管理权限");
                     return true;
                 }
                 List<ShopEntry> offers = plugin.shop().offers();
@@ -123,7 +130,7 @@ public final class MistShopCommand implements CommandExecutor, TabCompleter {
                 }
             }
             case "remove" -> {
-                if (!player.hasPermission("mistbingo.admin")) {
+                if (!plugin.isAdmin(player)) {
                     player.sendMessage("§c需要管理权限");
                     return true;
                 }
@@ -144,7 +151,7 @@ public final class MistShopCommand implements CommandExecutor, TabCompleter {
                 }
             }
             case "open", "close" -> {
-                if (!player.hasPermission("mistbingo.admin")) {
+                if (!plugin.isAdmin(player)) {
                     player.sendMessage("§c需要管理权限");
                     return true;
                 }
@@ -169,8 +176,8 @@ public final class MistShopCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> suggestions = new ArrayList<>();
-        if (args.length == 1) {
-            for (String option : new String[]{"list", "remove", "add", "open", "close", "generate"}) {
+        if (args.length == 1 && sender instanceof Player player && plugin.isAdmin(player)) {
+            for (String option : new String[]{"list", "remove", "add", "open", "close", "generate", "reload"}) {
                 if (option.startsWith(args[0].toLowerCase(Locale.ROOT))) {
                     suggestions.add(option);
                 }

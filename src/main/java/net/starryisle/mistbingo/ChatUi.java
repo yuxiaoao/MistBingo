@@ -41,10 +41,8 @@ public final class ChatUi {
     }
 
     public void sendFooter(Player player) {
-        player.sendMessage(Component.empty()
-                .append(Component.text("------", DARK))
-                .append(Component.text(" A bingo a day makes NyaaCat great ", NamedTextColor.GRAY))
-                .append(Component.text("------", DARK)));
+        player.sendMessage(legacy(plugin.settings().message("footer",
+                "&8------&7 A bingo a day makes StarryIsle great &8------")));
     }
 
     /**

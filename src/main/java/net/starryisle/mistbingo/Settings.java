@@ -155,7 +155,7 @@ public final class Settings {
     public List<String> rewardCommands() {
         FileConfiguration config = plugin.getConfig();
         if (!config.isSet("reward.commands")) {
-            return List.of("money give %player% 400");
+            return List.of("money give %player% 200");
         }
         return config.getStringList("reward.commands");
     }

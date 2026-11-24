@@ -69,19 +69,20 @@ public final class ChatUi {
         // Each line names its card so a backlog of pending cards stays distinguishable.
         String tag = index == 0 ? "今天的表" : "旧表 " + index;
         String date = card.date();
-        Component label = Component.text(" " + tag + " · 查看集物表 ", GREEN)
+        // Clicking runs a command instead of Adventure's ClickEvent.callback: the
+        // callback needs a 1.21.6+ client and is silently inert elsewhere (and shows
+        // nothing in the console), while a click command works for every client and
+        // leaves a "issued server command" line in the log.
+        ClickEvent click = ClickEvent.runCommand("/mistdaily submit " + date);
+        Component label = Component.text(" " + tag + " · 点击提交集物表 ", GREEN)
                 .hoverEvent(hover)
-                .clickEvent(ClickEvent.callback(audience -> {
-                    if (audience instanceof Player clicker) {
-                        plugin.daily().submit(clicker, date);
-                    }
-                }));
+                .clickEvent(click);
 
         player.sendMessage(Component.empty()
                 .append(Component.text("  ✧ ", GOLD))
                 .append(label)
-                .append(Component.text(" " + card.progress() + "/9 ✧", GOLD))
-                .append(Component.text("  " + card.date(), DARK)));
+                .append(Component.text(" " + card.progress() + "/9 ✧", GOLD).clickEvent(click))
+                .append(Component.text("  " + card.date(), DARK).clickEvent(click)));
     }
 
     /** Three rows of three hoverable cells; no capacity bar anywhere. */
@@ -121,11 +122,7 @@ public final class ChatUi {
         Component cellText = Component.text(padded)
                 .color(done ? NamedTextColor.DARK_GREEN : NamedTextColor.WHITE)
                 .hoverEvent(itemHover)
-                .clickEvent(ClickEvent.callback(audience -> {
-                    if (audience instanceof Player clicker) {
-                        plugin.daily().submit(clicker, date);
-                    }
-                }));
+                .clickEvent(ClickEvent.runCommand("/mistdaily submit " + date));
         return Component.text(" ").append(cellText).append(Component.text(" "));
     }
 

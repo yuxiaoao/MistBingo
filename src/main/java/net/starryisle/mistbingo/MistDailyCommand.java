@@ -28,7 +28,7 @@ public final class MistDailyCommand implements CommandExecutor, TabCompleter {
         }
         if (!player.hasPermission("mistbingo.use")
                 && !player.hasPermission("mistbingo.admin")) {
-            player.sendMessage("§c没有权限使用这个命令");
+            player.sendMessage("§c没有权限使用这个命令（需要权限 mistbingo.use）");
             return true;
         }
 
@@ -43,14 +43,13 @@ public final class MistDailyCommand implements CommandExecutor, TabCompleter {
                     plugin.daily().show(player);
                     return true;
                 }
-                int index;
+                // Chat cards click with the card date, while tab completion and
+                // /mistdaily submit <index> use the position in the list.
                 try {
-                    index = Integer.parseInt(args[1]);
+                    plugin.daily().submit(player, Integer.parseInt(args[1]));
                 } catch (NumberFormatException exception) {
-                    player.sendMessage("§c集物表序号必须是数字，例如 /mistdaily submit 0");
-                    return true;
+                    plugin.daily().submit(player, args[1]);
                 }
-                plugin.daily().submit(player, index);
             }
             case "pending" -> {
                 PlayerState state = plugin.daily().state(player);
@@ -186,6 +185,15 @@ public final class MistDailyCommand implements CommandExecutor, TabCompleter {
             for (String option : new String[]{"submit", "pending", "debug", "reset", "voucher"}) {
                 if (option.startsWith(args[0].toLowerCase(Locale.ROOT))) {
                     suggestions.add(option);
+                }
+            }
+            return suggestions;
+        }
+        if (args.length == 2 && args[0].equalsIgnoreCase("submit")
+                && sender instanceof Player player) {
+            for (Card card : plugin.daily().state(player).cards()) {
+                if (card.date().startsWith(args[1])) {
+                    suggestions.add(card.date());
                 }
             }
             return suggestions;

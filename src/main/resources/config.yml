@@ -94,7 +94,7 @@ voucher:
 # XConomy 的管理指令是 /money give（不是 /xconomy give）：
 reward:
   commands:
-    - 'money give %player% 400'
+    - 'money give %player% 200'
 
 # 文案
 messages:

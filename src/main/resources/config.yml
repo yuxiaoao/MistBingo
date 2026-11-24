@@ -99,7 +99,7 @@ reward:
 # 文案
 messages:
   header: '&8--==-- &6Mist Bingo &8==--'
-  footer: '&8------&7 A bingo a day makes StarryIsle great &8------'
+  footer: '&8------&7 愿你天天开心，把把 Bingo &8------'
   card-line: '&a              查看集物表 #{index}  &7({progress})'
   no-card: '&7你还没有集物表，稍后再试。'
   done-today: '&7今天的集物表已经完成，明天 0 点刷新后再来。'
